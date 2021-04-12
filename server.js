@@ -1,27 +1,21 @@
-// packages that we just installed
-const express = require('express')
+const express = require ('express')
 const bodyParser = require('body-parser')
-
 const cors = require('cors')
 
-// port where express will be running (REST server)
-const PORT = 3000
-// creation instance of express
-const app = express()
-// 
+
+const PORT = process.env.PORT || 3000
 const api = require('./routes/api')
+const app = express()
 app.use(cors())
 
-// specify body parser to handle body data
 app.use(bodyParser.json())
-// add scpecification to use routes/api
-app.use('/api', api)
+app.use(express.static(__dirname + '/ngApp/dist/ng-app'));
 
-// test
-app.get('/', function(req, res){
-    res.send('Hello from server')
+app.use('/api', api)
+app.get('/hello', function(req, res){
+    res.send('Hello from NodeJS Server on Heroku with Angular')
 })
 
 app.listen(PORT, function(){
-    console.log('Server running on localhost: ' + PORT)
+    console.log('Server running on localhost:' + PORT)
 })
